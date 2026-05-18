@@ -300,4 +300,5 @@ fixtures = [
     "Program Module Course",
     "Program Module Prerequisite",
     {"dt": "Disability Type", "filters": []},
+    "Training Provider"
 ]

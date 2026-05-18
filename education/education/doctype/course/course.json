@@ -26,61 +26,73 @@
   "assessment",
   "default_grading_scale",
   "assessment_criteria",
+  "contratacion_tab",
+  "contract_number",
+  "col_break_contratacion",
+  "training_provider",
+  "section_break_periodo",
+  "contract_start_date",
+  "col_break_periodo",
+  "contract_end_date",
+  "section_break_presupuesto",
+  "contracted_budget",
+  "col_break_presupuesto",
+  "contract_file",
   "connections_tab"
  ],
-"fields": [
-   {
-    "fieldname": "course_type",
-    "fieldtype": "Select",
-    "label": "Tipo de curso",
-    "options": "\nLibre\nModular\nTécnico",
-    "reqd": 1,
-    "in_list_view": 1,
-    "in_standard_filter": 1,
-    "description": "Libre: curso independiente sin módulos. Modular: estructura de módulos secuenciales. Técnico: formación técnica con título."
-   },
-   {
-    "fieldname": "col_break_type_status",
-    "fieldtype": "Column Break",
-    "label": ""
-   },
-   {
-    "fieldname": "course_status",
-    "fieldtype": "Select",
-    "label": "Estado del Curso",
-    "options": "Activo\nInactivo\nCancelado",
-    "default": "Activo",
-    "in_list_view": 1,
-    "in_standard_filter": 1,
-    "bold": 1,
-    "reqd": 1
-   },
-   {
-    "default": "0",
-    "fieldname": "has_active_enrollment",
-    "fieldtype": "Check",
-    "label": "Tiene matrícula activa",
-    "read_only": 1,
-    "in_list_view": 1,
-    "bold": 1
-   },
-   {
-    "fieldname": "moodle_course_id",
-    "fieldtype": "Data",
-    "hidden": 1,
-    "label": "Moodle Course ID"
-   },
-   {
-    "fieldname": "supporting_document",
-    "fieldtype": "Attach",
-    "hidden": 1,
-    "label": "Supporting Document"
-   },
-   {
-    "fieldname": "course_name",
+ "fields": [
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Tipo de curso",
+   "options": "\nLibre\nModular\nTécnico",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Libre: curso independiente sin módulos. Modular: estructura de módulos secuenciales. Técnico: formación técnica con título."
+  },
+  {
+   "fieldname": "col_break_type_status",
+   "fieldtype": "Column Break",
+   "label": ""
+  },
+  {
+   "fieldname": "course_status",
+   "fieldtype": "Select",
+   "label": "Estado del Curso",
+   "options": "Activo\nInactivo\nCancelado",
+   "default": "Activo",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1,
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "has_active_enrollment",
+   "fieldtype": "Check",
+   "label": "Tiene matrícula activa",
+   "read_only": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "moodle_course_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "ID Moodle"
+  },
+  {
+   "fieldname": "supporting_document",
+   "fieldtype": "Attach",
+   "hidden": 1,
+   "label": "Documento de respaldo"
+  },
+  {
+   "fieldname": "course_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Course Name",
+   "label": "Nombre del Curso",
    "reqd": 1,
    "unique": 1
   },
@@ -89,7 +101,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Department",
+   "label": "Departamento",
    "options": "Department"
   },
   {
@@ -99,14 +111,14 @@
   {
    "fieldname": "topics",
    "fieldtype": "Table",
-   "label": "Topics",
+   "label": "Temas",
    "options": "Course Topic"
   },
   {
    "fieldname": "hero_image",
    "fieldtype": "Attach Image",
    "hidden": 1,
-   "label": "Hero Image"
+   "label": "Imagen de portada"
   },
   {
    "fieldname": "assessment",
@@ -115,19 +127,19 @@
   {
    "fieldname": "default_grading_scale",
    "fieldtype": "Link",
-   "label": "Default Grading Scale",
+   "label": "Escala de calificación predeterminada",
    "options": "Grading Scale"
   },
   {
    "fieldname": "assessment_criteria",
    "fieldtype": "Table",
-   "label": "Assessment Criteria",
+   "label": "Criterios de evaluación",
    "options": "Course Assessment Criteria"
   },
   {
    "fieldname": "description",
    "fieldtype": "Small Text",
-   "label": "Description"
+   "label": "Descripción"
   },
   {
    "fieldname": "column_break_tflc",
@@ -136,12 +148,12 @@
   {
    "fieldname": "assessment_tab",
    "fieldtype": "Tab Break",
-   "label": "Assessment"
+   "label": "Evaluación"
   },
   {
    "fieldname": "connections_tab",
    "fieldtype": "Tab Break",
-   "label": "Connections",
+   "label": "Conexiones",
    "show_dashboard": 1
   },
   {
@@ -155,22 +167,80 @@
    "label": "Prerrequisitos del Curso",
    "options": "Course Prerequisite Custom"
   },
-
-{
-  "fieldname": "documents_tab",
-  "fieldtype": "Tab Break",
-  "label": "Documentos"
-},
-{
-  "fieldname": "course_documents",
-  "fieldtype": "Table",
-  "label": "Documentos de Respaldo",
-  "options": "Course Document"
-}
+  {
+   "fieldname": "documents_tab",
+   "fieldtype": "Tab Break",
+   "label": "Documentos"
+  },
+  {
+   "fieldname": "course_documents",
+   "fieldtype": "Table",
+   "label": "Documentos de Respaldo",
+   "options": "Course Document"
+  },
+  {
+   "fieldname": "contratacion_tab",
+   "fieldtype": "Tab Break",
+   "label": "Información Adicional"
+  },
+  {
+   "fieldname": "contract_number",
+   "fieldtype": "Data",
+   "label": "Número de Contratación"
+  },
+  {
+   "fieldname": "col_break_contratacion",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "training_provider",
+   "fieldtype": "Link",
+   "label": "Proveedor Contratado",
+   "options": "Training Provider"
+  },
+  {
+   "fieldname": "section_break_periodo",
+   "fieldtype": "Section Break",
+   "label": "Período de Contratación"
+  },
+  {
+   "fieldname": "contract_start_date",
+   "fieldtype": "Date",
+   "label": "Inicio"
+  },
+  {
+   "fieldname": "col_break_periodo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contract_end_date",
+   "fieldtype": "Date",
+   "label": "Fin"
+  },
+  {
+   "fieldname": "section_break_presupuesto",
+   "fieldtype": "Section Break",
+   "label": "Presupuesto y Contrato"
+  },
+  {
+   "fieldname": "contracted_budget",
+   "fieldtype": "Currency",
+   "label": "Presupuesto Invertido (₡)",
+   "options": "CRC"
+  },
+  {
+   "fieldname": "col_break_presupuesto",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contract_file",
+   "fieldtype": "Attach",
+   "label": "Contrato"
+  }
  ],
  "image_field": "hero_image",
  "links": [],
- "modified": "2026-05-10 00:00:03.000000",
+ "modified": "2026-05-18 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Course",

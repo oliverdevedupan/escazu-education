@@ -40,6 +40,7 @@
     "event": "New",
     "channel": "System Notification",
     "enabled": 1,
+    "condition": "doc.course_status == 'Activo'",
     "recipients": [
       {
         "receiver_by_role": "Instructor"
@@ -51,7 +52,7 @@
         "receiver_by_role": "Education Manager"
       }
     ],
-    "message": "Se ha publicado un nuevo curso en el campus virtual: {{ doc.course_name }}. Ingresa al sistema para más información."
+    "message": "Se ha publicado un nuevo curso: {{ doc.course_name }}. Tipo: {{ doc.course_type }}. Ingresa al sistema para más información."
   },
   {
     "doctype": "Notification",
@@ -61,6 +62,7 @@
     "event": "New",
     "channel": "Email",
     "enabled": 1,
+    "condition": "doc.course_status == 'Activo'",
     "recipients": [
       {
         "receiver_by_role": "Instructor"
@@ -72,7 +74,7 @@
         "receiver_by_role": "Education Manager"
       }
     ],
-    "message": "<p>Estimado usuario,</p><p>Se ha publicado un nuevo curso en el campus virtual.</p><p><b>Curso:</b> {{ doc.course_name }}</p><p>Ingresa al campus virtual para conocer más detalles e inscribirte.</p>"
+    "message": "<p>Estimado usuario,</p><p>Se ha publicado un nuevo curso en el campus virtual.</p><ul><li><b>Curso:</b> {{ doc.course_name }}</li><li><b>Tipo:</b> {{ doc.course_type }}</li><li><b>Modalidad:</b> {{ doc.modality }}</li></ul><p>Ingresa al campus virtual para conocer más detalles e inscribirte.</p>"
   },
   {
     "doctype": "Notification",
@@ -204,6 +206,6 @@
         "receiver_by_role": "Education Manager"
       }
     ],
-    "message": "Se ha solicitado corrección de documentos a {{ doc.first_name }} {{ doc.last_name }}. Documentos marcados: {{ doc.custom_documentos_incorrectos }}."
+    "message": "<p>Se ha activado una nueva oferta académica en el sistema.</p><ul><li><b>Nombre:</b> {{ doc.student_group_name }}</li><li><b>Curso:</b> {{ doc.course }}</li><li><b>Programa:</b> {{ doc.program }}</li><li><b>Período académico:</b> {{ doc.academic_term }}</li><li><b>Modalidad:</b> {{ doc.modality }}</li><li><b>Cupos:</b> {{ doc.max_strength }}</li><li><b>Fecha inicio:</b> {{ doc.course_start_date }}</li><li><b>Fecha fin:</b> {{ doc.course_end_date }}</li></ul><p>Ingresa al sistema para más información.</p>"
   }
 ]

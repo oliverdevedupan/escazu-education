@@ -74,13 +74,25 @@ class Instructor(Document):
 				frappe.throw(_("El campo {0} es obligatorio.").format(label))
 
 	def validate_deactivation(self):
-		"""Al desactivar un instructor verifica que no tenga horarios futuros asignados."""
+		"""Al desactivar un instructor verifica que no tenga grupos activos ni horarios futuros asignados."""
 		if self.is_new():
 			return
 
 		previous_status = frappe.db.get_value("Instructor", self.name, "status")
 		if previous_status != "Active" or self.status != "Inactive":
 			return
+
+		grupos = self._get_active_student_groups()
+		if grupos:
+			lineas = [f"  • {g.course} — {g.name}" for g in grupos]
+			frappe.throw(
+				_(
+					"No se puede desactivar el instructor porque tiene {0} grupo(s) de estudiantes activo(s):\n\n"
+					"{1}\n\n"
+					"Por favor, reasigne o elimine esos grupos antes de desactivar este perfil."
+				).format(len(grupos), "\n".join(lineas)),
+				title=_("⚠️ Instructor con Grupos Activos"),
+			)
 
 		horarios = self._get_active_schedules()
 		if not horarios:
@@ -107,6 +119,20 @@ class Instructor(Document):
 			},
 			fields=["name", "course", "schedule_date"],
 			order_by="schedule_date asc",
+		)
+
+	def _get_active_student_groups(self):
+		"""Retorna Student Groups activos donde este instructor está asignado."""
+		return frappe.db.sql(
+			"""
+			SELECT sg.name, sg.course
+			FROM `tabStudent Group` sg
+			INNER JOIN `tabStudent Group Instructor` sgi ON sgi.parent = sg.name
+			WHERE sgi.instructor = %s AND (sg.disabled = 0 OR sg.disabled IS NULL)
+			ORDER BY sg.name
+			""",
+			self.name,
+			as_dict=True,
 		)
 
 

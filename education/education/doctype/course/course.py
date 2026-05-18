@@ -18,9 +18,40 @@ class Course(Document):
 		self._validar_no_en_matricula_activa()
 		self._actualizar_estado_matricula()
 
+	def onload(self):
+		self._actualizar_estado_matricula()
+
 	def _actualizar_estado_matricula(self):
 		if not self.is_new():
-			self.has_active_enrollment = 1 if _get_active_enrollment_term_for_course(self.name) else 0
+			activo = 1 if _get_active_enrollment_term_for_course(self.name) else 0
+			self.has_active_enrollment = activo
+			self.db_set("has_active_enrollment", activo, update_modified=False)
+
+	def on_update(self):
+		"""RF-12: notifica cuando un curso existente pasa a Activo."""
+		if self.is_new():
+			return
+		before = self.get_doc_before_save()
+		if not before:
+			return
+		if before.get("course_status") != "Activo" and self.course_status == "Activo":
+			self._enviar_notificacion_curso_activo()
+		if self.moodle_course_id:
+			from education.moodle_integration.events import on_course_updated
+			on_course_updated(self, "on_update")
+
+	def _enviar_notificacion_curso_activo(self):
+		"""Dispara las notificaciones 'Nuevo Curso Disponible' para cursos activados post-creación."""
+		for nombre in ("Nuevo Curso Disponible - Sistema", "Nuevo Curso Disponible - Email"):
+			notif = frappe.db.get_value("Notification", nombre, "name")
+			if notif:
+				try:
+					frappe.get_doc("Notification", nombre).send(self)
+				except Exception:
+					frappe.log_error(
+						frappe.get_traceback(),
+						f"Error al enviar notificación '{nombre}' para curso {self.name}",
+					)
 
 	def on_trash(self):
 		self._validar_no_en_matricula_activa()
@@ -133,13 +164,6 @@ class Course(Document):
 		"""Hook llamado después de insertar el documento."""
 		from education.moodle_integration.events import on_course_created
 		on_course_created(self, "after_insert")
-
-	def on_update(self):
-		"""Hook llamado después de actualizar el documento."""
-		# Solo sincronizar si ya tiene moodle_course_id (ya existe en Moodle)
-		if self.moodle_course_id:
-			from education.moodle_integration.events import on_course_updated
-			on_course_updated(self, "on_update")
 
 	def on_rename(self, old_name, new_name, merge=False):
 		"""Hook llamado después de renombrar el documento."""
